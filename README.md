@@ -1,6 +1,6 @@
 # API do BANCO
 
-Esta é uma API para gerenciar usuários e operações bancárias. A API utiliza um banco de dados MySQL chamado `bank` com duas tabelas: `users` para armazenar informações dos usuários e `accounts` para registrar o histórico de partidas.
+Esta é uma API para gerenciar usuários e operações bancárias. A API utiliza um banco de dados MySQL chamado `bank` com duas tabelas: `users` para armazenar informações dos usuários e `accounts` para registrar informações e operações bancárias.
 
 ## Executando o aplicativo no dev mode
 
