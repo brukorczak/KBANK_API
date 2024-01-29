@@ -2,6 +2,8 @@
 
 Esta é uma API para gerenciar usuários e operações bancárias. A API utiliza um banco de dados MySQL chamado `bank` com duas tabelas: `users` para armazenar informações dos usuários e `accounts` para registrar informações e operações bancárias.
 
+Essa API faz integração com o front de KBANK, o front está disponível em [GitHub](https://github.com/brukorczak/KBANK_FRONT.git).
+
 ## Executando o aplicativo no dev mode
 
 Você pode executar seu aplicativo no modo de desenvolvimento que permite live coding usando:
