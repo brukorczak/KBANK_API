@@ -1,6 +1,7 @@
 package br.com.ibm.quarkusbank.rest.controllerTest;
 
 import br.com.ibm.persistence.dto.AddUserDto;
+import br.com.ibm.persistence.dto.LoginDto;
 import br.com.ibm.persistence.model.AccountType;
 import io.quarkus.test.common.http.TestHTTPResource;
 import io.quarkus.test.junit.QuarkusTest;
@@ -31,7 +32,8 @@ public class UserControllerTest {
         user.setAge(30);
         user.setPhone("19991154069");
         user.setAddress("SP");
-        user.setAccountType(AccountType.CURRENT);
+        user.setCpf(generateUniqueCPF()); // Adicione esta linha
+        user.setPassword("senha123"); // Adicione esta linha
 
         Response response =
                 given()
@@ -45,6 +47,13 @@ public class UserControllerTest {
         String responseBody = response.getBody().asString();
         assertNotNull(responseBody, "Resposta vazia");
         assertJson(responseBody);
+    }
+
+    // Método para gerar CPF único em cada teste
+    private String generateUniqueCPF() {
+        String uniqueCPF = "CPF" + System.currentTimeMillis();
+        System.out.println("Generated CPF: " + uniqueCPF);
+        return uniqueCPF;
     }
 
     private void assertJson(String jsonString) {
@@ -75,7 +84,6 @@ public class UserControllerTest {
         updateUser.setAge(25);
         updateUser.setPhone("19991154069");
         updateUser.setAddress("NovaSP");
-        updateUser.setAccountType(AccountType.SAVINGS);
 
         Response response =
                 given()
@@ -84,10 +92,13 @@ public class UserControllerTest {
                         .when()
                         .put(apiUrl + "/1");
 
+        System.out.println("Response Body: " + response.getBody().asString()); // Adicione este log
+
         assertEquals(204, response.statusCode());
     }
 
-    //teste que não deve atualiza usuário inexistente
+
+    //teste que não deve atualizar usuário inexistente
     @Test
     @DisplayName("should not update non-existing user")
     @Order(4)
@@ -95,18 +106,17 @@ public class UserControllerTest {
         var updateUser = new AddUserDto();
         updateUser.setName("NovoNome");
         updateUser.setAge(25);
-        updateUser.setPhone("19991154123");
+        updateUser.setPhone("19991154069");
         updateUser.setAddress("NovaSP");
-        updateUser.setAccountType(AccountType.SAVINGS);
 
         Response response =
                 given()
                         .contentType(ContentType.JSON)
                         .body(updateUser)
                         .when()
-                        .put(apiUrl + "/999");
+                        .put(apiUrl + "/999"); // Usando um ID que não existe
 
-        assertEquals(400, response.statusCode());
+        assertEquals(404, response.statusCode());
     }
 
     //teste exclui o usuário com sucesso
@@ -133,5 +143,52 @@ public class UserControllerTest {
                         .delete(apiUrl + "/999");
 
         assertEquals(404, response.statusCode());
+    }
+
+    //teste para realizar login com sucesso
+    @Test
+    @DisplayName("should login successfully")
+    @Order(7)
+    public void loginUserTest() {
+        // Obter o CPF dinâmico gerado durante o teste createUserTest
+        String dynamicCPF = generateUniqueCPF();
+
+        // Cadastrar um novo usuário com o CPF dinâmico
+        var user = new AddUserDto();
+        user.setName("UsuárioLogin");
+        user.setAge(30);
+        user.setPhone("19991154069");
+        user.setAddress("SP");
+        user.setCpf(dynamicCPF);
+        user.setPassword("senha123");
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(user)
+                .when()
+                .post(apiUrl);
+
+        // Realizar o login com o novo usuário
+        var loginDto = new LoginDto();
+        loginDto.setCpf(dynamicCPF);
+        loginDto.setPassword("senha123");
+
+        // Adicionar logs para facilitar a depuração
+        System.out.println("Attempting login with CPF: " + dynamicCPF);
+
+        Response response =
+                given()
+                        .contentType(ContentType.JSON)
+                        .body(loginDto)
+                        .when()
+                        .post(apiUrl + "/login");
+
+        System.out.println("Response Body: " + response.getBody().asString());
+
+        assertEquals(200, response.statusCode());
+
+        String responseBody = response.getBody().asString();
+        assertNotNull(responseBody, "Resposta vazia");
+        assertJson(responseBody);
     }
 }

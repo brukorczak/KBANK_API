@@ -35,9 +35,7 @@ public class BankService {
             account.setAccountType(AccountType.valueOf(accountType));
 
             account.setUser(user);
-            // Salve a conta dentro da transação
             this.userDao.saveAccount(account);
-            // Atualize o usuário para refletir a associação
             user.setAccount(account);
             this.userDao.update(user);
         } else {

@@ -13,7 +13,6 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    //garante ser unico //garante nao ser nulo
     @Column(name = "accountNumber", unique = true, nullable = false)
     private String accountNumber;
 

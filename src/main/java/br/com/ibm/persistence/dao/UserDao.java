@@ -47,7 +47,9 @@ public class UserDao implements Dao<User> {
     public List<User> getAll() {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
-        criteriaQuery.from(User.class);
+        Root<User> root = criteriaQuery.from(User.class);
+
+        criteriaQuery.orderBy(builder.desc(root.get("id"))); //ordenada atual
 
         TypedQuery<User> query = em.createQuery(criteriaQuery);
         return query.getResultList();
@@ -76,17 +78,6 @@ public class UserDao implements Dao<User> {
 
     //deleta usuário
     @Override
-//    @Transactional
-//    public Optional<User> delete(Long id) {
-//        User user = em.find(User.class, id);
-//        if (user != null) {
-//            em.remove(user);
-//            return Optional.of(user);
-//        } else {
-//            return Optional.empty();
-//        }
-//    }
-//
     @Transactional
     public Optional<User> delete(Long id) {
         User user = em.find(User.class, id);

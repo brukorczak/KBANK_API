@@ -97,7 +97,10 @@ public class BankDao implements BDao<Account> {
             if (sourceAccount.getBalance() >= value) {
                 double transferValue = value * (1 - TRANSFER_RATE);
 
+                // Aplicando a taxa de transferência na conta de origem
                 sourceAccount.setBalance(sourceAccount.getBalance() - value);
+
+                // Adicionando o valor líquido (sem a taxa) à conta de destino
                 targetAccount.setBalance(targetAccount.getBalance() + transferValue);
 
                 em.merge(sourceAccount);
@@ -105,4 +108,5 @@ public class BankDao implements BDao<Account> {
             }
         }
     }
+
 }

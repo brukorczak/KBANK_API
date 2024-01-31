@@ -56,7 +56,7 @@ public class UserController {
     }
 
     @GET
-    @Path("/{id}/info")
+    @Path("/{id}/user")
     public Response getUserInfoById(@PathParam("id") Long id) {
         Optional<User> userOptional = this.service.getUserInfoById(id);
 

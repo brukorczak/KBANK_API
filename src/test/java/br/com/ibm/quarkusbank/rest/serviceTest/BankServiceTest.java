@@ -1,4 +1,4 @@
-package br.com.ibm.quarkusbank.rest.serviceTest;
-
-public class BankServiceTest {
-}
+//package br.com.ibm.quarkusbank.rest.serviceTest;
+//
+//public class BankServiceTest {
+//}
