@@ -2,7 +2,6 @@ package br.com.ibm.quarkusbank.rest.controllerTest;
 
 import br.com.ibm.persistence.dto.AddUserDto;
 import br.com.ibm.persistence.dto.LoginDto;
-import br.com.ibm.persistence.model.AccountType;
 import io.quarkus.test.common.http.TestHTTPResource;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
@@ -32,8 +31,8 @@ public class UserControllerTest {
         user.setAge(30);
         user.setPhone("19991154069");
         user.setAddress("SP");
-        user.setCpf(generateUniqueCPF()); // Adicione esta linha
-        user.setPassword("senha123"); // Adicione esta linha
+        user.setCpf(generateUniqueCPF());
+        user.setPassword("senha123");
 
         Response response =
                 given()
@@ -92,7 +91,7 @@ public class UserControllerTest {
                         .when()
                         .put(apiUrl + "/1");
 
-        System.out.println("Response Body: " + response.getBody().asString()); // Adicione este log
+        System.out.println("Response Body: " + response.getBody().asString());
 
         assertEquals(204, response.statusCode());
     }
@@ -114,7 +113,7 @@ public class UserControllerTest {
                         .contentType(ContentType.JSON)
                         .body(updateUser)
                         .when()
-                        .put(apiUrl + "/999"); // Usando um ID que não existe
+                        .put(apiUrl + "/999");
 
         assertEquals(404, response.statusCode());
     }
@@ -150,10 +149,8 @@ public class UserControllerTest {
     @DisplayName("should login successfully")
     @Order(7)
     public void loginUserTest() {
-        // Obter o CPF dinâmico gerado durante o teste createUserTest
         String dynamicCPF = generateUniqueCPF();
 
-        // Cadastrar um novo usuário com o CPF dinâmico
         var user = new AddUserDto();
         user.setName("UsuárioLogin");
         user.setAge(30);
@@ -168,12 +165,10 @@ public class UserControllerTest {
                 .when()
                 .post(apiUrl);
 
-        // Realizar o login com o novo usuário
         var loginDto = new LoginDto();
         loginDto.setCpf(dynamicCPF);
         loginDto.setPassword("senha123");
 
-        // Adicionar logs para facilitar a depuração
         System.out.println("Attempting login with CPF: " + dynamicCPF);
 
         Response response =
