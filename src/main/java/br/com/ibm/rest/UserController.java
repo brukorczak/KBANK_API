@@ -6,6 +6,7 @@ import br.com.ibm.persistence.dto.LoginDto;
 import br.com.ibm.persistence.dto.PutUserDto;
 import br.com.ibm.persistence.model.User;
 import br.com.ibm.services.UserService;
+import br.com.ibm.services.annotation.Authenticated;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
@@ -35,10 +36,14 @@ public class UserController {
 
     @POST
     @Path("/login")
+    @Authenticated
     public Response loginUser(@Valid LoginDto loginDto) {
-        User authUser = this.service.loginUser(loginDto).orElseThrow(() ->
-                new NotFoundException("Usuário não encontrado ou senha incorreta"));
-        return Response.status(Response.Status.OK).entity(authUser).build();
+        User authUser = this.service.loginUser(loginDto)
+                .orElseThrow(() -> new NotFoundException("Usuário não encontrado ou senha incorreta"));
+
+        String token = this.service.generateJwtToken(authUser);
+
+        return Response.status(Response.Status.OK).entity("{\"token\": \"" + token + "\"}").build();
     }
 
     @DELETE
@@ -67,5 +72,4 @@ public class UserController {
             throw new NotFoundException("Informações do usuário não encontradas para o ID: " + id);
         }
     }
-
 }

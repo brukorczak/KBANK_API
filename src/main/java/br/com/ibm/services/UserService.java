@@ -7,9 +7,17 @@ import br.com.ibm.persistence.dto.AddUserDto;
 import br.com.ibm.persistence.dto.LoginDto;
 import br.com.ibm.persistence.dto.PutUserDto;
 import br.com.ibm.persistence.model.User;
+import br.com.ibm.services.annotation.GenerateToken;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import javax.crypto.SecretKey;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -85,5 +93,19 @@ public class UserService {
         return userDao.getUserInfoById(id);
     }
 
+    @GenerateToken
+    public String generateJwtToken(User user) {
+        Instant now = Instant.now();
+        Instant expiration = now.plus(10, ChronoUnit.MINUTES);
 
+        SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+        return Jwts.builder()
+                .setIssuer("KBANK")
+                .setSubject(user.getName())
+                .claim("userId", user.getId())
+                .setIssuedAt(Date.from(now))
+                .setExpiration(Date.from(expiration))
+                .signWith(key)
+                .compact();
+    }
 }
