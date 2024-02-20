@@ -69,5 +69,4 @@ public class UserController {
             throw new NotFoundException("Informações do usuário não encontradas para o ID: " + id);
         }
     }
-
 }
