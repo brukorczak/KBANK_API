@@ -68,7 +68,6 @@ public class UserService {
         }
     }
 
-    //login
     public Optional<User> loginUser(LoginDto loginDto) {
         Optional<User> userOptional = userDao.getUserByCpf(loginDto.getCpf());
 
