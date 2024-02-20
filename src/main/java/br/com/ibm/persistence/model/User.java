@@ -3,6 +3,7 @@ package br.com.ibm.persistence.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
 @Data
@@ -26,6 +27,7 @@ public class User {
     private String address;
 
     @Column(name = "cpf", unique = true)
+    @CPF
     private String cpf;
 
     @Column(name = "password")

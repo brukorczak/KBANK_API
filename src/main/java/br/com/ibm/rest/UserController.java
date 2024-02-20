@@ -38,6 +38,8 @@ public class UserController {
     public Response loginUser(@Valid LoginDto loginDto) {
         User authUser = this.service.loginUser(loginDto).orElseThrow(() ->
                 new NotFoundException("Usuário não encontrado ou senha incorreta"));
+        //String token = this.service.generateJwtToken(authUser);
+        //return Response.status(Response.Status.OK).entity("{\"token\": \"" + token + "\"}").build();
         return Response.status(Response.Status.OK).entity(authUser).build();
     }
 

@@ -85,5 +85,19 @@ public class UserService {
         return userDao.getUserInfoById(id);
     }
 
-
+    //TOKEN
+//    public String generateJwtToken(User user) {
+//        Instant now = Instant.now();
+//        Instant expiration = now.plus(10, ChronoUnit.MINUTES);
+//
+//        SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+//        return Jwts.builder()
+//                .setIssuer("KBANK")
+//                .setSubject(user.getName())
+//                .claim("userId", user.getId())
+//                .setIssuedAt(Date.from(now))
+//                .setExpiration(Date.from(expiration))
+//                .signWith(key)
+//                .compact();
+//    }
 }

@@ -45,7 +45,6 @@
       <artifactId>quarkus-jdbc-mysql</artifactId>
     </dependency>
 
-
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-hibernate-validator</artifactId>
@@ -58,11 +57,9 @@
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
-      <version>3.11.2</version> <!-- Use a versão mais recente disponível -->
+      <version>3.11.2</version>
       <scope>test</scope>
     </dependency>
-
-
 
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -87,6 +84,28 @@
       <artifactId>rest-assured</artifactId>
       <scope>test</scope>
     </dependency>
+
+<!--    <dependency>-->
+<!--      <groupId>io.quarkus</groupId>-->
+<!--      <artifactId>quarkus-smallrye-jwt</artifactId>-->
+<!--    </dependency>-->
+<!--    <dependency>-->
+<!--      <groupId>io.jsonwebtoken</groupId>-->
+<!--      <artifactId>jjwt-api</artifactId>-->
+<!--      <version>0.11.2</version>-->
+<!--    </dependency>-->
+<!--    <dependency>-->
+<!--      <groupId>io.jsonwebtoken</groupId>-->
+<!--      <artifactId>jjwt-impl</artifactId>-->
+<!--      <version>0.11.2</version>-->
+<!--      <scope>runtime</scope>-->
+<!--    </dependency>-->
+<!--    <dependency>-->
+<!--      <groupId>io.jsonwebtoken</groupId>-->
+<!--      <artifactId>jjwt-jackson</artifactId>-->
+<!--      <version>0.11.2</version>-->
+<!--      <scope>runtime</scope>-->
+<!--    </dependency>-->
   </dependencies>
   <build>
     <plugins>
